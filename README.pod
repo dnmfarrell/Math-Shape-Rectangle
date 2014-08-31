@@ -8,7 +8,29 @@ Math::Shape::Rectangle - a 2d rectangle in cartesian space
 
 =head1 VERSION
 
-version 0.01
+version 0.02
+
+=head2 rotate
+
+Requires a numerical argument in radians and turns the rectangle. Negative numbers rotate left and positive numbers rotate right.
+
+    use Math::Trig ':pi';
+    $rectangle->rotate(pip2); # turn half pi radians (90 degrees) right;
+    $rectangle->rotate(-pi); # turn pi radians (180 degrees) left;
+
+=head2 get_points
+
+Returns hashref of points.
+
+=head1 INTERNAL METHODS
+
+=head2 _calculate_corners
+
+Creates the 4 point objects that represent the corners of the rectangle.
+
+=head1 REPOSITORY
+
+L<https://github.com/sillymoose/Math-Shape-Rectangle.git>
 
 =head1 AUTHOR
 

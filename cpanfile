@@ -1,5 +1,15 @@
+requires "Carp" => "0";
+requires "Math::Shape::Point" => "0";
+requires "Math::Trig" => "0";
+requires "perl" => "5.008";
 requires "strict" => "0";
 requires "warnings" => "0";
+
+on 'test' => sub {
+  requires "Math::Shape::Grid" => "0";
+  requires "Test::Exception" => "0";
+  requires "Test::More" => "0";
+};
 
 on 'configure' => sub {
   requires "ExtUtils::MakeMaker" => "0";

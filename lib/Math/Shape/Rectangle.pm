@@ -6,6 +6,7 @@ use Math::Shape::Point;
 use Math::Trig ':pi';
 use 5.008;
 use Carp;
+use List::Util 'max';
 
 # ABSTRACT: a 2d rectangle in cartesian space
 
@@ -56,6 +57,32 @@ sub get_points {
     };
 }
 
+=head2 detect_collision
+
+Requires another Math::Shape::Rectangle object and returns true if their coordinates overlap or false if they do not.
+
+=cut
+
+sub detect_collision {
+    my ($self, $r2) = @_;
+    return 1 if $self->test_radius_intersect($r2);
+    0;
+}
+
+=head2 test_radius_intersect
+
+Requires another Math::Shape::Rectangle object and returns true if the distance between them is less than their radius.
+
+=cut
+
+sub test_radius_intersect {
+    my ($self, $r2) = @_;
+    my $r1_radius = max($self->{width}, $self->{length}) / 2;
+    my $r2_radius = max($r2->{width}, $r2->{length}) / 2;
+    my $distance = $self->{centre}->get_distance_to_point($r2->{centre});
+    return $distance > $r1_radius + $r2_radius ? 0 : 1;
+}
+
 =head1 INTERNAL METHODS
 
 =head2 _calculate_corners
@@ -71,30 +98,30 @@ sub _calculate_corners {
 
     $self->{tl} = Math::Shape::Point->new(
         $self->{centre}{x} - int (sin($self->{centre}{r} - pip2)
-                                  * (1 / sin($self->{centre}{r} - pip2))),
+                                  * ($self->{length} * 0.5 / sin($self->{centre}{r} - pip2))),
         $self->{centre}{y} + int( cos($self->{centre}{r} - pip2)
-                                  * (1 / cos($self->{centre}{r} - pip2))),
+                                  * ($self->{width} * 0.5 / cos($self->{centre}{r} - pip2))),
         $self->{centre}{r});
 
     $self->{tr} = Math::Shape::Point->new(
         $self->{centre}{x} + int (sin($self->{centre}{r} - pip2)
-                                  * (1 / sin($self->{centre}{r} - pip2))),
+                                  * ($self->{length} * 0.5 / sin($self->{centre}{r} - pip2))),
         $self->{centre}{y} + int( cos($self->{centre}{r} - pip2)
-                                  * (1 / cos($self->{centre}{r} - pip2))),
+                                  * ($self->{width} * 0.5 / cos($self->{centre}{r} - pip2))),
         $self->{centre}{r});
 
     $self->{bl} = Math::Shape::Point->new(
         $self->{centre}{x} - int (sin($self->{centre}{r} - pip2)
-                                  * (1 / sin($self->{centre}{r} - pip2))),
+                                  * ($self->{length} * 0.5 / sin($self->{centre}{r} - pip2))),
         $self->{centre}{y} - int( cos($self->{centre}{r} - pip2)
-                                  * (1 / cos($self->{centre}{r} - pip2))),
+                                  * ($self->{width} * 0.5 / cos($self->{centre}{r} - pip2))),
         $self->{centre}{r});
 
     $self->{br} = Math::Shape::Point->new(
         $self->{centre}{x} + int (sin($self->{centre}{r} - pip2)
-                                  * (1 / sin($self->{centre}{r} - pip2))),
+                                  * ($self->{length} * 0.5 / sin($self->{centre}{r} - pip2))),
         $self->{centre}{y} - int( cos($self->{centre}{r} - pip2)
-                                  * (1 / cos($self->{centre}{r} - pip2))),
+                                  * ($self->{width} * 0.5 / cos($self->{centre}{r} - pip2))),
         $self->{centre}{r});
     1;
 }

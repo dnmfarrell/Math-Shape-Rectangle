@@ -3,12 +3,35 @@ use warnings;
 package Math::Shape::Rectangle;
 
 use Math::Shape::Point;
-use Math::Trig ':pi';
+use Math::Trig 1.22 ':pi';
 use 5.008;
 use Carp;
 use List::Util 'max';
 
+=for HTML <a href="https://travis-ci.org/sillymoose/Math-Shape-Rectangle"><img src="https://travis-ci.org/sillymoose/Math-Shape-Rectangle.svg?branch=master"></a> <a href='https://coveralls.io/r/sillymoose/Math-Shape-Rectangle'><img src='https://coveralls.io/repos/sillymoose/Math-Shape-Rectangle/badge.png' alt='Coverage Status' /></a>
+
+=head1 SYNOPSIS
+
+    use Math::Shape::Rectangle;
+    use Math::Trig;
+
+    my $r = Math::Shape::Rectangle->new(1,1,0,2,2);
+
+    $r->rotate(pi);
+
+=cut
+
 # ABSTRACT: a 2d rectangle in cartesian space
+
+=head1 METHODS
+
+=head2 new
+
+Creates a new Math::Shape::Rectangle object. Requires 5 arguments: the x, y coordinates of the centre, the radius for the direction, and the length and width args.
+
+    Math::Shape::Rectangle->new(1,1,0,2,2);
+
+=cut
 
 sub new {
     croak 'Incorrect number of arguments passed to new()' unless @_ == 6;
